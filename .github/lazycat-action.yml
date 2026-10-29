@@ -32,7 +32,7 @@ stores:
   official:
     enabled: false
   private:
-    enabled: false
+    enabled: true
     skip_if_version_exists: true
     name: CyberChef
     summary: 浏览器中的编码解码、哈希与数据转换工具箱
