@@ -1,0 +1,15 @@
+package: community.lazycat.app.cyberchef
+version: 11.5.0
+name: CyberChef
+description: A browser-based toolbox for encoding, decoding, hashing and data analysis.
+min_os_version: "1.5.0"
+homepage: https://github.com/gchq/CyberChef
+author: GCHQ
+license: Apache-2.0
+locales:
+  zh:
+    name: CyberChef
+    description: 浏览器中的数据处理工具箱，支持编码解码、哈希、格式转换及配方组合。
+  en:
+    name: CyberChef
+    description: A browser-based toolbox for encoding, decoding, hashing and data analysis.

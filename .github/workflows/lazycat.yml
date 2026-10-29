@@ -1,0 +1,36 @@
+name: Verify and publish CyberChef
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start pinned upstream container
+        run: |
+          docker run --detach --name cyberchef --publish 127.0.0.1:18080:8080 ghcr.io/gchq/cyberchef:11.5.0@sha256:f04a39926344faf8e4cbbc8c92fb125d2b466f9be62db09aff23c7c406101a51
+      - name: Verify HTTP entry point
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --retry 12 --retry-connrefused --retry-delay 2 http://127.0.0.1:18080/ -o index.html
+          grep -qi CyberChef index.html
+          echo 'Pinned upstream serves CyberChef over HTTP on port 8080.'
+      - name: Container diagnostics
+        if: always()
+        run: docker logs cyberchef
+      - name: Remove container
+        if: always()
+        run: docker rm -f cyberchef
+  lazycat:
+    needs: smoke
+    uses: ca-x/lazycat-github-action/.github/workflows/lazycat.yml@v1
+    with:
+      operation: auto
+      config: .github/lazycat-action.yml
+      versioned-release-asset: true
+    secrets:
+      APPSTORE_URL: ${{ secrets.APPSTORE_URL }}
+      APPSTORE_TOKEN: ${{ secrets.APPSTORE_TOKEN }}
+      PRIVATE_STORE_GROUP_CODES: ${{ secrets.PRIVATE_STORE_GROUP_CODES }}

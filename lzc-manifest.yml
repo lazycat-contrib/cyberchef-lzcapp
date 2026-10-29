@@ -1,0 +1,14 @@
+application:
+  subdomain: cyberchef
+  multi_instance: false
+  upstreams:
+    - location: /
+      backend: http://cyberchef:8080/
+services:
+  cyberchef:
+    # upstream: ghcr.io/gchq/cyberchef:11.5.0
+    image: ghcr.1ms.run/gchq/cyberchef:11.5.0
+usage: |
+  CyberChef 在浏览器中执行编码解码、格式转换、哈希等操作，并可组合成处理配方。
+  入口保留懒猫登录保护；本包不附带文件选择器拦截脚本。
+  不需要数据库。请自行保存需要长期保留的配方和输出。
